@@ -2,5 +2,10 @@ from config import config
 
 enviroment = config['development']
 
-if __name__ == "__main__":
+
+def main():
     pass
+
+
+if __name__ == "__main__":
+    main()
