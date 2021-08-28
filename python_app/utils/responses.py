@@ -31,12 +31,12 @@ class Responses:
             }
         })
 
-    def ok_response(self, data, message='Ok'):
-        return self.response(
+    @staticmethod
+    def ok_response(data, message='Ok'):
+        return Responses.response(
             True,
             data,
             message,
-            200
         )
 
 
