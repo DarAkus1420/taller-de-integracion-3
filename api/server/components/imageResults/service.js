@@ -2,8 +2,9 @@ import { createdResponse, errorResponse, okResponse } from '../../utils/response
 
 const imageResultsService = {
 	async getAll() {
-		const imageResults = await ImageResults.findAll();
-		return okResponse(`Obtanined ${imageResults.length} image results`, { imageResults });
+		// const imageResults = await ImageResults.findAll();
+		// return okResponse(`Obtanined ${imageResults.length} image results`, { imageResults });
+		return okResponse('working');
 	},
 
 	async getOneById(id) {

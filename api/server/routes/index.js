@@ -1,7 +1,7 @@
-import imageResultRouter from '../components/imageResult/routes';
+import imageResultsRouter from '../components/imageResults/routes';
 
 const apiVersion = '/api/v1';
 
 export default app => {
-	app.use(apiVersion, imageResultRouter);
+	app.use(apiVersion, imageResultsRouter);
 };
