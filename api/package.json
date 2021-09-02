@@ -1,11 +1,36 @@
 {
-  "name": "api",
-  "version": "1.0.0",
-  "description": "api for image recognition data",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC"
+	"name": "api",
+	"version": "1.0.0",
+	"description": "api for image recognition data",
+	"main": "index.js",
+	"scripts": {
+		"start": "node -r esm server.js",
+		"dev": "nodemon -r esm --inspect server.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"axios": "^0.21.1",
+		"bcrypt": "^5.0.1",
+		"body-parser": "^1.19.0",
+		"cors": "^2.8.5",
+		"dotenv": "^8.2.0",
+		"esm": "^3.2.25",
+		"express": "^4.17.1",
+		"joi": "^17.4.0",
+		"lodash": "^4.17.21",
+		"moment": "^2.29.1",
+		"passport": "^0.4.1",
+		"passport-jwt": "^4.0.0",
+		"passport-local": "^1.0.0"
+	},
+	"devDependencies": {
+		"eslint": "^7.23.0",
+		"eslint-config-prettier": "^8.1.0",
+		"eslint-plugin-prettier": "^3.3.1",
+		"express-winston": "^4.1.0",
+		"nodemon": "^2.0.7",
+		"prettier": "^2.2.1"
+	}
 }
