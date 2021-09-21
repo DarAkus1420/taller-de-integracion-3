@@ -24,7 +24,6 @@ class ImageRecognition:
                 M = cv.moments(cnt)
                 cX = int(M["m10"]/M["m00"])
                 cY = int(M["m01"]/M["m00"])
-                cv.circle(img, (cX, cY), 3, (0, 255, 0), -1)
                 particles.append({'centroid': (cX, cY)})
         return particles
 
@@ -74,9 +73,5 @@ class ImageRecognition:
 
 if __name__ == '__main__':
     imagen = cv.imread(
-        'Img000038.jpg')
-
-    ImageRecognition.found_all_particles(imagen)
-    cv.imshow("imagen", imagen)
-    cv.waitKey(0)
-    cv.destroyAllWindows()
+        './Img000038.jpg')
+    print(ImageRecognition.found_all_particles(imagen))
