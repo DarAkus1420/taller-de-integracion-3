@@ -26,7 +26,6 @@ class Http:
 
         formatted_data = Responses.response(data)
         response = requests.post(url, data=formatted_data)
-        print(response.text)
         return response
 
     @staticmethod
@@ -48,8 +47,10 @@ class Http:
         None
         '''
         try:
-            response = Http.send_to_server(url, data)
-            if((response.status_code > 200 and response.status_code < 300) and request_counter < 2):
-                raise Exception('Request failed')
+            if(request_counter < 3):
+                response = Http.send_to_server(url, data)
+                print(response.status_code)
+                if(response.status_code < 200 or response.status_code >= 300):
+                    raise Exception('Request failed')
         except Exception as e:
             Http.send_data(url, data, request_counter + 1)
