@@ -1,5 +1,6 @@
 import cv2 as cv
 import numpy as np
+import time
 
 
 class ImageRecognition:
@@ -8,6 +9,11 @@ class ImageRecognition:
     def conver_to_hsv(img):
         hsvScale = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         return hsvScale
+
+    @staticmethod
+    def conver_to_gray(img):
+        grayScale = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+        return grayScale
 
     @staticmethod
     def centroid_detected(img, maskin) -> list:
@@ -54,9 +60,34 @@ class ImageRecognition:
         return ImageRecognition.centroid_detected(img, blueMask)
 
     @staticmethod
+    def found_air_particles(img):
+        start = time.time()
+        airParticles = []
+        grayScale = ImageRecognition.conver_to_gray(img)
+        grayBlur = cv.blur(grayScale, (4, 4))
+        detectedCircle = cv.HoughCircles(
+            grayBlur, cv.HOUGH_GRADIENT, 1, 2, param1=40, param2=15, minRadius=9, maxRadius=12)
+
+        if detectedCircle is not None:
+            detectedCircle = np.uint16(np.around(detectedCircle))
+
+            for dC in detectedCircle[0, :]:
+                cX = dC[0]
+                cY = dC[1]
+                r = dC[2]
+
+                airParticles.append({'centorid': (cX, cY), 'radius': r})
+                cv.circle(img, (cX, cY), r, (0, 255, 0), 2)
+                cv.circle(img, (cX, cY), 1, (0, 255, 0), 3)
+        end = time.time()
+        print(end - start)
+        return airParticles
+
+    @staticmethod
     def found_all_particles(img) -> dict:
         blue_particles = ImageRecognition.found_blue_particles(img)
         red_particles = ImageRecognition.found_red_particles(img)
+        air_particles = ImageRecognition.found_air_particles(img)
         response = {
             'blue_particles':
                 {
@@ -65,6 +96,10 @@ class ImageRecognition:
             'red_particles':
                 {
                     'particles': red_particles, 'length': len(red_particles)
+                },
+            'air_particles':
+                {
+                    'particles': air_particles, 'length': len(air_particles)
                 }
 
         }
@@ -73,5 +108,8 @@ class ImageRecognition:
 
 if __name__ == '__main__':
     imagen = cv.imread(
-        './Img000038.jpg')
+        '/home/eliacer/Descargas/Phantom-Cyto-Seq/Seq/Img001100.jpg')
     print(ImageRecognition.found_all_particles(imagen))
+    cv.imshow("Imagen", imagen)
+    cv.waitKey(0)
+    cv.destroyAllWindows()
