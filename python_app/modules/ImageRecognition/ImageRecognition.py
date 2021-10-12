@@ -61,10 +61,14 @@ class ImageRecognition:
 
     @staticmethod
     def found_air_particles(img):
-        start = time.time()
         airParticles = []
         grayScale = ImageRecognition.conver_to_gray(img)
-        grayBlur = cv.blur(grayScale, (4, 4))
+
+        # Uncomment one of the variables named grayBlur and
+        # comment out the other to test the difference in performance.
+
+        # grayBlur = cv.blur(grayScale, (4, 4))
+        grayBlur = cv.bilateralFilter(grayScale, 5, 75, 75)
         detectedCircle = cv.HoughCircles(
             grayBlur, cv.HOUGH_GRADIENT, 1, 2, param1=40, param2=15, minRadius=9, maxRadius=12)
 
@@ -79,12 +83,11 @@ class ImageRecognition:
                 airParticles.append({'centorid': (cX, cY), 'radius': r})
                 cv.circle(img, (cX, cY), r, (0, 255, 0), 2)
                 cv.circle(img, (cX, cY), 1, (0, 255, 0), 3)
-        end = time.time()
-        print(end - start)
         return airParticles
 
     @staticmethod
     def found_all_particles(img) -> dict:
+        start = time.time()
         blue_particles = ImageRecognition.found_blue_particles(img)
         red_particles = ImageRecognition.found_red_particles(img)
         air_particles = ImageRecognition.found_air_particles(img)
@@ -103,13 +106,61 @@ class ImageRecognition:
                 }
 
         }
+        end = time.time()
+        print(end - start)
         return response
 
 
 if __name__ == '__main__':
-    imagen = cv.imread(
-        '/home/eliacer/Descargas/Phantom-Cyto-Seq/Seq/Img001100.jpg')
-    print(ImageRecognition.found_all_particles(imagen))
-    cv.imshow("Imagen", imagen)
+    image = cv.imread(
+        "../taller-de-integracion-3/python_app/assets/images/Img000038.jpg")
+    ImageRecognition.found_all_particles(image)
+    cv.imshow("Image", image)
+    cv.waitKey(0)
+
+    image = cv.imread(
+        "../taller-de-integracion-3/python_app/assets/images/Img000118.jpg")
+    ImageRecognition.found_all_particles(image)
+    cv.imshow("Image", image)
+    cv.waitKey(0)
+
+    image = cv.imread(
+        "../taller-de-integracion-3/python_app/assets/images/Img000198.jpg")
+    ImageRecognition.found_all_particles(image)
+    cv.imshow("Image", image)
+    cv.waitKey(0)
+
+    image = cv.imread(
+        "../taller-de-integracion-3/python_app/assets/images/Img000530.jpg")
+    ImageRecognition.found_all_particles(image)
+    cv.imshow("Image", image)
+    cv.waitKey(0)
+
+    image = cv.imread(
+        "../taller-de-integracion-3/python_app/assets/images/Img000637.jpg")
+    ImageRecognition.found_all_particles(image)
+    cv.imshow("Image", image)
+    cv.waitKey(0)
+
+    image = cv.imread(
+        "../taller-de-integracion-3/python_app/assets/images/Img000829.jpg")
+    ImageRecognition.found_all_particles(image)
+    cv.imshow("Image", image)
+
     cv.waitKey(0)
     cv.destroyAllWindows()
+
+    # ImageRecognition.found_all_particles(
+    #     cv.imread("../taller-de-integracion-3/python_app/assets/images/Img001002.jpg"))
+
+    # ImageRecognition.found_all_particles(
+    #     cv.imread("../taller-de-integracion-3/python_app/assets/images/Img001005.jpg"))
+
+    # ImageRecognition.found_all_particles(
+    #     cv.imread("../taller-de-integracion-3/python_app/assets/images/Img001041.jpg"))
+
+    # ImageRecognition.found_all_particles(
+    #     cv.imread("../taller-de-integracion-3/python_app/assets/images/Img001075.jpg"))
+
+    # ImageRecognition.found_all_particles(
+    #     cv.imread("../taller-de-integracion-3/python_app/assets/images/Img001142.jpg"))
