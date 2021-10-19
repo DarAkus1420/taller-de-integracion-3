@@ -1,6 +1,7 @@
 import cv2 as cv
 import numpy as np
 import time
+import csv
 
 
 class ImageRecognition:
@@ -83,7 +84,8 @@ class ImageRecognition:
         return airParticles
 
     @staticmethod
-    def found_all_particles(img) -> dict:
+    def found_all_particles(img, name) -> dict:
+        start = time.time()
         gray_scale = ImageRecognition.convert_to_gray(img)
         hsv_scale = ImageRecognition.convert_to_hsv(img)
         blue_particles = ImageRecognition.found_blue_particles(img, hsv_scale)
@@ -101,39 +103,30 @@ class ImageRecognition:
             }
 
         }
+        end = time.time()
+        print(end-start)
+
+        file = open('status.csv', 'a')
+        writer = csv.writer(file)
+        writer.writerow([name, end-start, len(air_particles), len(blue_particles),
+                        len(red_particles)])
+        file.close()
         return response
 
 
 if __name__ == '__main__':
-    image = cv.imread(
-        "assets/images/Img000038.jpg")
-    print(ImageRecognition.found_all_particles(image))
-    image = cv.imread(
-        "assets/images/Img000118.jpg")
-    print(ImageRecognition.found_all_particles(image))
-    image = cv.imread(
-        "assets/images/Img000198.jpg")
-    print(ImageRecognition.found_all_particles(image))
-    image = cv.imread(
-        "assets/images/Img000530.jpg")
-    print(ImageRecognition.found_all_particles(image))
-    image = cv.imread(
-        "assets/images/Img000637.jpg")
-    print(ImageRecognition.found_all_particles(image))
-    image = cv.imread(
-        "assets/images/Img000829.jpg")
-    print(ImageRecognition.found_all_particles(image))
-    # ImageRecognition.found_all_particles(
-    #     cv.imread("../taller-de-integracion-3/python_app/assets/images/Img001002.jpg"))
-
-    # ImageRecognition.found_all_particles(
-    #     cv.imread("../taller-de-integracion-3/python_app/assets/images/Img001005.jpg"))
-
-    # ImageRecognition.found_all_particles(
-    #     cv.imread("../taller-de-integracion-3/python_app/assets/images/Img001041.jpg"))
-
-    # ImageRecognition.found_all_particles(
-    #     cv.imread("../taller-de-integracion-3/python_app/assets/images/Img001075.jpg"))
-
-    # ImageRecognition.found_all_particles(
-    #     cv.imread("../taller-de-integracion-3/python_app/assets/images/Img001142.jpg"))
+    from os import listdir
+    from os.path import isfile, join
+    onlyfiles = [f for f in listdir(
+        'assets/images') if isfile(join('assets/images', f))]
+    print(onlyfiles)
+    file = open('status.csv', 'w')
+    writer = csv.writer(file)
+    writer.writerow(['imageName', 'time', 'pa_f', 'pb_f',
+                    'pr_f', 'pa_r', 'pb_r', 'pr_r'])
+    file.close()
+    for name in onlyfiles:
+        print(name)
+        image = cv.imread(f'assets/images/{name}')
+        ImageRecognition.found_all_particles(image, name)
+        # cv.imwrite(f'assets/newImages/{name}', image)

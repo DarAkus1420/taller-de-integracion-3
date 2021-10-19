@@ -254,3 +254,9 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+
+# Images
+
+python_app/assets/images/*.jpg
+python_app/assets/newImages/*.jpg
