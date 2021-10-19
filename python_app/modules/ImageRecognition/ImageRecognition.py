@@ -1,6 +1,5 @@
 import cv2 as cv
 import numpy as np
-import time
 
 
 class ImageRecognition:
@@ -61,10 +60,6 @@ class ImageRecognition:
     def found_air_particles(img, gray_scale):
         airParticles = []
 
-        # Uncomment one of the variables named grayBlur and
-        # comment out the other to test the difference in performance.
-
-        # grayBlur = cv.blur(grayScale, (4, 4))
         grayBlur = cv.bilateralFilter(gray_scale, 5, 75, 75)
         detectedCircle = cv.HoughCircles(
             grayBlur, cv.HOUGH_GRADIENT, 1, 2, param1=40, param2=15, minRadius=9, maxRadius=12)
@@ -107,33 +102,68 @@ class ImageRecognition:
 if __name__ == '__main__':
     image = cv.imread(
         "assets/images/Img000038.jpg")
-    print(ImageRecognition.found_all_particles(image))
+    ImageRecognition.found_all_particles(image)
+    cv.imshow("Image", image)
+    cv.waitKey(0)
+
     image = cv.imread(
         "assets/images/Img000118.jpg")
-    print(ImageRecognition.found_all_particles(image))
+    ImageRecognition.found_all_particles(image)
+    cv.imshow("Image", image)
+    cv.waitKey(0)
+
     image = cv.imread(
         "assets/images/Img000198.jpg")
-    print(ImageRecognition.found_all_particles(image))
+    ImageRecognition.found_all_particles(image)
+    cv.imshow("Image", image)
+    cv.waitKey(0)
+
     image = cv.imread(
         "assets/images/Img000530.jpg")
-    print(ImageRecognition.found_all_particles(image))
+    ImageRecognition.found_all_particles(image)
+    cv.imshow("Image", image)
+    cv.waitKey(0)
+
     image = cv.imread(
         "assets/images/Img000637.jpg")
-    print(ImageRecognition.found_all_particles(image))
+    ImageRecognition.found_all_particles(image)
+    cv.imshow("Image", image)
+    cv.waitKey(0)
+
     image = cv.imread(
         "assets/images/Img000829.jpg")
-    print(ImageRecognition.found_all_particles(image))
-    # ImageRecognition.found_all_particles(
-    #     cv.imread("../taller-de-integracion-3/python_app/assets/images/Img001002.jpg"))
+    ImageRecognition.found_all_particles(image)
+    cv.imshow("Image", image)
+    cv.waitKey(0)
 
-    # ImageRecognition.found_all_particles(
-    #     cv.imread("../taller-de-integracion-3/python_app/assets/images/Img001005.jpg"))
+    image = cv.imread(
+        "assets/images/Img001002.jpg")
+    ImageRecognition.found_all_particles(image)
+    cv.imshow("Image", image)
+    cv.waitKey(0)
 
-    # ImageRecognition.found_all_particles(
-    #     cv.imread("../taller-de-integracion-3/python_app/assets/images/Img001041.jpg"))
+    image = cv.imread(
+        "assets/images/Img001005.jpg")
+    ImageRecognition.found_all_particles(image)
+    cv.imshow("Image", image)
+    cv.waitKey(0)
 
-    # ImageRecognition.found_all_particles(
-    #     cv.imread("../taller-de-integracion-3/python_app/assets/images/Img001075.jpg"))
+    image = cv.imread(
+        "assets/images/Img001041.jpg")
+    ImageRecognition.found_all_particles(image)
+    cv.imshow("Image", image)
+    cv.waitKey(0)
 
-    # ImageRecognition.found_all_particles(
-    #     cv.imread("../taller-de-integracion-3/python_app/assets/images/Img001142.jpg"))
+    image = cv.imread(
+        "assets/images/Img001075.jpg")
+    ImageRecognition.found_all_particles(image)
+    cv.imshow("Image", image)
+    cv.waitKey(0)
+
+    image = cv.imread(
+        "assets/images/Img001142.jpg")
+    ImageRecognition.found_all_particles(image)
+    cv.imshow("Image", image)
+    cv.waitKey(0)
+
+    cv.destroyAllWindows()
