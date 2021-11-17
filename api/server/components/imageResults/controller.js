@@ -26,8 +26,7 @@ const imageResultsController = {
 
 	async createOne(req, res) {
 		try {
-			const imageResults = req.body;
-			const response = await imageResultsService.createOne(imageResults);
+			const response = await imageResultsService.createOne(req.body);
 			restResponse(response, res);
 		} catch (e) {
 			console.log(e);

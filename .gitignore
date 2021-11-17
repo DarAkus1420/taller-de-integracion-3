@@ -254,7 +254,7 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-
+api/package-lock.json
 
 # Images
 

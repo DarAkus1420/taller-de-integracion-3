@@ -1,7 +1,40 @@
+import stapi as st
 import cv2 as cv
 import stapi as st
 import numpy as np
+import json
+import requests
 
+
+
+
+
+
+class Http:
+
+    """Class used to send data to a specific server"""
+
+    @staticmethod
+    def send_data(url: str, data: dict) -> None:
+        '''Execute the send_to_server, using a typical try/catch and
+        recuersion to limit up to 3 request if it finds any errors 
+
+        Parameters
+        ----------
+        url: string
+            The server url
+        data: dict
+            The data that will be sent to the server
+
+        Returns
+        -------
+        None
+        '''
+        try:
+            x = requests.post(url, json=data)
+            st.msg(str(x))
+        except:
+            print('error')
 
 class ImageRecognition:
 
@@ -98,8 +131,9 @@ class ImageRecognition:
         return ImageRecognition.centroid_detected(blueMask)
 
     @staticmethod
-    def found_air_particles(gray_scale):
+    def found_air_particles(gray_scale) -> list:
         airParticles = []
+        airParticlesDict = []
 
         # Uncomment one of the variables named grayBlur and
         # comment out the other to test the difference in performance.
@@ -118,10 +152,11 @@ class ImageRecognition:
                 r = dC[2]
 
                 airParticles.append([cX, cY, r])
-        return airParticles
+                airParticlesDict.append({'cX': cX, 'cY': cY, 'r': r})
+        return (airParticles, airParticlesDict)
 
     @staticmethod
-    def found_all_particles(img) -> dict:
+    def found_all_particles(img ) -> dict:
         gray_scale = ImageRecognition.convert_to_gray(img)
         hsv_scale = ImageRecognition.convert_to_hsv(img)
         blue_particles = ImageRecognition.found_blue_particles(hsv_scale)
@@ -130,26 +165,29 @@ class ImageRecognition:
         gray_array = np.array(air_particles, dtype=np.float32)
         red_array = np.array(red_particles, dtype=np.float32)
         blue_array = np.array(blue_particles, dtype=np.float32)
-        if(len(red_array) > 0):
-            st.msg(str(red_array))
-            st.data("red", red_array)
-        if(len(blue_array) > 0):
-            st.msg(str(blue_array))
-            st.data("blue", blue_array)
-        if(len(gray_array) > 0):
-            st.msg(str(red_array))
-            st.data("gray", gray_array)
-        response = {
+        emulator_response = {
             'blue_particles': {
-                'particles': blue_particles, 'length': len(blue_particles)
+                'particles': blue_array, 'length': len(blue_particles)
             },
             'red_particles': {
-                'particles': red_particles, 'length': len(red_particles)
+                'particles': red_array, 'length': len(red_particles)
             },
             'air_particles': {
-                'particles': air_particles, 'length': len(air_particles)
+                'particles': gray_array, 'length': len(air_particles)
             }
-
+  
         }
 
-        return response
+        return (emulator_response)
+
+
+# url = 'http://172.29.15.151:3000/api/v1/imageResults'
+img = st.value('image')
+results = ImageRecognition.found_all_particles(img)
+if(len(results['red_particles']['particles']) > 0):
+	st.data("red", results['red_particles']['particles'])
+if(len(results['blue_particles']['particles']) > 0):
+	st.data("blue", results['blue_particles']['particles'])
+if(len(results['air_particles']['particles']) > 0):
+	st.data("gray", results['air_particles']['particles'])
+

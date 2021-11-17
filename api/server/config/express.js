@@ -1,5 +1,6 @@
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import express from 'express';
 
 export default app => {
 	app.use(cors(false));
@@ -9,5 +10,5 @@ export default app => {
 		res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
 		next();
 	});
-	app.use(bodyParser.json());
+	app.use(express.json());
 };
