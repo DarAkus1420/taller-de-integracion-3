@@ -1,5 +1,6 @@
 import { createdResponse, errorResponse, okResponse } from '../../utils/responses';
 import ImageResults from './model';
+import replaceAll from '../../utils/functions/replaceAll';
 
 const imageResultsService = {
 	async getAll() {
@@ -12,9 +13,9 @@ const imageResultsService = {
 		return okResponse(`Obtained image result`, { foundedImageResults });
 	},
 
-	async createOne(body) {
-		console.log(body, 'body');
-		// const newImageResults = await ImageResults.create(imageResults);
+	async createOne(data) {
+		const imageResults = JSON.parse(replaceAll("'", '"', data));
+		ImageResults.create(imageResults);
 		console.log('Creando nuevo registro');
 		return createdResponse('Se ha ingresado correctamente el resultado de la imagen');
 	},
