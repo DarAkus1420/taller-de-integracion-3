@@ -14,7 +14,9 @@ const imageResultsService = {
 	},
 
 	async createOne(data) {
+		console.log(data, 'data')
 		const imageResults = JSON.parse(replaceAll("'", '"', data));
+		console.log(imageResults, 'imageres')
 		ImageResults.create(imageResults);
 		console.log('Creando nuevo registro');
 		return createdResponse('Se ha ingresado correctamente el resultado de la imagen');

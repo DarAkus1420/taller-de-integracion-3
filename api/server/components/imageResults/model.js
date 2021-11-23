@@ -9,9 +9,9 @@ const particles = new Schema({
 
 const imageResultsSchema = new Schema(
 	{
-		blueParticles: [particles],
-		redParticles: [particles],
-		airParticles: [particles],
+		blue_particles: { type: Array },
+		red_particles: { type: Array },
+		air_particles: { type: Array },
 	},
 	{ timestamps: true }
 );
