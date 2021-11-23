@@ -1,6 +1,7 @@
 import cv2 as cv
 import stapi as st
 import numpy as np
+import requests
 
 
 class ImageRecognition:
@@ -121,7 +122,7 @@ class ImageRecognition:
         return airParticles
 
     @staticmethod
-    def found_all_particles(img) -> dict:
+    def found_all_particles(img, url: str) -> dict:
         gray_scale = ImageRecognition.convert_to_gray(img)
         hsv_scale = ImageRecognition.convert_to_hsv(img)
         blue_particles = ImageRecognition.found_blue_particles(hsv_scale)
@@ -130,26 +131,25 @@ class ImageRecognition:
         gray_array = np.array(air_particles, dtype=np.float32)
         red_array = np.array(red_particles, dtype=np.float32)
         blue_array = np.array(blue_particles, dtype=np.float32)
-        if(len(red_array) > 0):
-            st.msg(str(red_array))
-            st.data("red", red_array)
-        if(len(blue_array) > 0):
-            st.msg(str(blue_array))
-            st.data("blue", blue_array)
-        if(len(gray_array) > 0):
-            st.msg(str(red_array))
-            st.data("gray", gray_array)
-        response = {
+        emulator_response = {
+
             'blue_particles': {
-                'particles': blue_particles, 'length': len(blue_particles)
+                'particles': blue_array, 'length': len(blue_particles)
             },
             'red_particles': {
-                'particles': red_particles, 'length': len(red_particles)
+                'particles': red_array, 'length': len(red_particles)
             },
             'air_particles': {
-                'particles': air_particles, 'length': len(air_particles)
+                'particles': gray_array, 'length': len(air_particles)
             }
 
         }
+        response = {
+            "blue_particles": blue_particles,
+            "red_particles": red_particles,
+            "air_particles": air_particles
 
-        return response
+        }
+        requests.post(url, json={'data': str(response)})
+
+        return emulator_response
