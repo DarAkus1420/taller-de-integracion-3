@@ -18,7 +18,7 @@ It should be noted that within this module the following data must be obtained:
     - Hydrogen 
     - Air particles
 - Centroid
-- Outline
+- Radius 
 
 <br>
 
@@ -34,11 +34,16 @@ In order to test the effectiveness of the python application, as a first step, c
 
 Below are the commands that must be executed by console before being able to execute and test the functionality of our project
 
+In the api folder:
 
 ```console
     $ npm install 
+```
+
+In the python_app folder:
+
+```console
     $ pip install -r requeriments.txt
-    $ npx husky install		
 ```
 
 <br>
@@ -47,7 +52,7 @@ Below are the commands that must be executed by console before being able to exe
 
 Throughout the programming carried out in the different modules, the implementation of different algorithms can be noticed, among which it is worth highlighting
 
-- hough transform algorithm:
+- Hough transform algorithm:
     - The Hough transform is a technique for detecting figures in digital images. This technique is mostly used in the field of Computer Vision. With the Hough transform it is possible to find all kinds of figures that can be expressed mathematically, such as lines, circles or ellipse
     
     <br>
@@ -58,15 +63,61 @@ Throughout the programming carried out in the different modules, the implementat
 
 <br>
 
-- bayesian algorithm
-    - Bayesian optimization works by constructing a posterior distribution of functions (Gaussian process) that best describes the function you want to optimize. As the number of observations increases, the posterior distribution improves and the algorithm becomes more certain of which regions of the parameter space are worth exploring.  
-
+- Centroid detect using color range
+    -  The basic idea is to have a range of preset colors, to be able to find the red and blue particles, this to be able to obtain a little more performance
+    - This allows us to obtain with 100% precision the presence of red or blue particles, being able to find their radius and centroid.
+    
     <br>
 
-    <img width='825' alt='Gif bayesian filter' src='https://github.com/simsimi2143/BayesianOptimization/blob/master/examples/bayesian_optimization.gif?raw=true'>
+    <img width='825' alt='Gif bayesian filter' src='docs/images/Screenshot_4.png'>
 
 
 <br>
+
+
+## How to run the project
+
+The program receives the images through the stapi library, which is a means of communication between the emulator or image software and our project
+
+In the same way, the answers of the analysis are sent using this library
+
+Additionally, our program is enabled to send the data to an api, which is also included in this repository. The standard way to run the api is by entering its respective folder and executing the following command.
+
+
+```console
+    $ npm run dev
+```
+
+This will start the api in a development mode, which allows you to see the logs when the data is saved
+An important detail to mention is that due to limitations of using python in an embedded way, it is necessary to convert the data to a string before sending it to the server.
+
+Due to this on the server the data must be converted into an object, to later save it in the database
+
+<img width='825' src='docs/images/Screenshot_5.png'>
+
+Once received they are saved in the database with the following structure
+
+<img width='825' src='docs/images/Screenshot_6.png'>
+
+The fastest way to get all the records is using an api route (localhost:3000/api/v1/imageResults)
+
+When entering this in the browser, the data of all the images that have been processed will be obtained
+
+<img width='825' src='docs/images/Screenshot_7.png'>
+
+As you can see, the information is very messy, but it is a very good way to send this data to a frontend application.
+
+
+Another way we have to download the information is with a csv.
+
+<img width='300' src='docs/images/Screenshot_8.png'>
+
+The way to obtain this is by entering the path localhost:3000/api/v1/imageResults/generate/csv.Which generates a csv with the following structure.
+
+
+<img width='400' src='docs/images/Screenshot_9.png'>
+
+Soon we have planned to add a system so that emails with this data can be received, a limit of images based on the last ones received (for greater optimization) and the generation of a pdf with a little more general information
 
 ## Licence of project
 
