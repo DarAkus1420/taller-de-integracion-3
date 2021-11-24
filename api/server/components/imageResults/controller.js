@@ -56,6 +56,9 @@ const imageResultsController = {
 			errorCallback(e, res);
 		}
 	},
+	generateCsv(req, res) {
+		imageResultsService.generateCsv(res);
+	},
 };
 
 export default imageResultsController;

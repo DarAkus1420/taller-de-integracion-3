@@ -13,4 +13,8 @@ imageResultsRouter.put('/imageResults/:id', imageResultsController.updateOne);
 
 imageResultsRouter.delete('/imageResults/:id', imageResultsController.deleteOneById);
 
+imageResultsRouter.delete('/imageResults/:id', imageResultsController.deleteOneById);
+
+imageResultsRouter.get('/imageResults/generate/csv', imageResultsController.generateCsv);
+
 export default imageResultsRouter;
